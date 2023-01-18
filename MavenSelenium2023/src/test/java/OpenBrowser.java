@@ -19,6 +19,28 @@ public class OpenBrowser {
         driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
 
+        //get message
+        Thread.sleep(2000);
+        String Flashmsg = driver.findElement(By.id("flash")).getText();
+        System.out.println(Flashmsg);
+
+        //get css color
+
+        String BackColor=driver.findElement(By.id("flash")).getCssValue("background-color");
+        System.out.println(BackColor);
+
+
+        //xpath with parent
+      //  driver.findElement(By.xpath("//form[@id=\"login\"]//button[@type=\"submit\"]")).click();
+
+// css selector with parent
+        //  driver.findElement(By.cssSelector("form > button[type=\"submit\"]")).click();
+
+        //css selector
+        // driver.findElement(By.cssSelector("button[type=\"submit\"]"));
+
+        // driver.findElement(By.linkText("Elemental Selenium")).click();
+        // driver.findElement(By.partialLinkText("Selenium")).click();
         Thread.sleep(3000);
 
         //driver.close();
