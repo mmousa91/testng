@@ -6,8 +6,9 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
-public class OpenBrowser {
+public class OpenBrowserSoftassert {
 
     WebDriver driver  = null ;
 
@@ -33,23 +34,21 @@ public class OpenBrowser {
 
         Thread.sleep(3000);
 
+        SoftAssert soft = new SoftAssert();
         // first assertion
-        System.out.println("first assert");
         String ExpectedResult = "You logged into a secure area!";
         String ActualResult = driver.findElement(By.id("flash")).getText();
 
-        Assert.assertTrue(ActualResult.contains(ExpectedResult));
+        soft.assertTrue(ActualResult.contains(ExpectedResult),"first assert");
 
         // second assertion
-        System.out.println("second assert");
-        Assert.assertTrue(driver.findElement(By.cssSelector("a[href=\"/logout\"]")).isDisplayed());
+        soft.assertTrue(driver.findElement(By.cssSelector("a[href=\"/logout\"]")).isDisplayed(),"second assert");
 
        //third assertion
-        System.out.println("third assert");
-        Assert.assertEquals(driver.getCurrentUrl(),"https://the-internet.herokuapp.com/secure");
+        soft.assertEquals(driver.getCurrentUrl(),"https://the-internet.herokuapp.com/secure","third assert");
 
 
-
+        soft.assertAll();
 
     }
     @Test (priority = 2)

@@ -1,16 +1,24 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class OpenBrowser {
+public class OpenBrowserpom_design_pattern {
 
     WebDriver driver  = null ;
 
+    // pom-design-pattern
+    public WebElement UserNameEle (){
+
+        By UserName = By.id("username");
+        WebElement UserNameEle = driver.findElement(UserName);
+        return UserNameEle;
+    }
 
     @BeforeTest
     public void OpenBrowser()  {
@@ -27,7 +35,13 @@ public class OpenBrowser {
     public void ValidData () throws InterruptedException {
         driver.navigate().to("https://the-internet.herokuapp.com/login");
 
-        driver.findElement(By.id("username")).sendKeys("tomsmith");
+        //object from class loginPage
+       LoginPage Loginpom = new LoginPage();
+        Loginpom.UserNamePom(driver).sendKeys("tomsmith");
+
+        // using UserElem method in same class
+      //  UserNameEle().sendKeys("tomsmith");
+
         driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
 
