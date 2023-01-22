@@ -11,4 +11,19 @@ public class LoginPage {
         return UserNameEle;
 
     }
+
+    public WebElement PasswordPom (WebDriver driver)
+    {
+        return driver.findElement(By.id("password"));
+    }
+
+    public By FlashPom ()
+    {
+        return By.id("flash");
+    }
+
+    public By CssPom (){
+
+        return By.cssSelector("a[href=\"/logout\"]");
+    }
 }

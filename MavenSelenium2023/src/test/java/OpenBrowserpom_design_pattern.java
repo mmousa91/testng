@@ -11,14 +11,16 @@ import org.testng.annotations.Test;
 public class OpenBrowserpom_design_pattern {
 
     WebDriver driver  = null ;
+    LoginPage Loginpom ;
+
 
     // pom-design-pattern
-    public WebElement UserNameEle (){
+  /*  public WebElement UserNameEle (){
 
         By UserName = By.id("username");
         WebElement UserNameEle = driver.findElement(UserName);
         return UserNameEle;
-    }
+    }*/
 
     @BeforeTest
     public void OpenBrowser()  {
@@ -28,35 +30,45 @@ public class OpenBrowserpom_design_pattern {
          driver  = new ChromeDriver() ;
 
         driver.manage().window().maximize();
+        // create object
+        Loginpom = new LoginPage();
 
+    }
+
+    public void LoginSteps (String UserName, String Password){
+        Loginpom.UserNamePom(driver).sendKeys(UserName);
+        Loginpom.PasswordPom(driver).sendKeys(Password);
+        Loginpom.PasswordPom(driver).sendKeys(Keys.ENTER);
     }
 
     @Test (priority = 1)
     public void ValidData () throws InterruptedException {
         driver.navigate().to("https://the-internet.herokuapp.com/login");
 
-        //object from class loginPage
-       LoginPage Loginpom = new LoginPage();
+// before making seperated method for login to reduce duplicate
+       /* //object from class loginPage
         Loginpom.UserNamePom(driver).sendKeys("tomsmith");
 
         // using UserElem method in same class
       //  UserNameEle().sendKeys("tomsmith");
 
-        driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
-        driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
+        Loginpom.PasswordPom(driver).sendKeys("SuperSecretPassword!");
+        Loginpom.PasswordPom(driver).sendKeys(Keys.ENTER);*/
+
+        LoginSteps("tomsmith","SuperSecretPassword!");
 
         Thread.sleep(3000);
 
         // first assertion
         System.out.println("first assert");
         String ExpectedResult = "You logged into a secure area!";
-        String ActualResult = driver.findElement(By.id("flash")).getText();
+        String ActualResult = driver.findElement(Loginpom.FlashPom()).getText();
 
         Assert.assertTrue(ActualResult.contains(ExpectedResult));
 
         // second assertion
         System.out.println("second assert");
-        Assert.assertTrue(driver.findElement(By.cssSelector("a[href=\"/logout\"]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(Loginpom.CssPom()).isDisplayed());
 
        //third assertion
         System.out.println("third assert");
@@ -70,12 +82,12 @@ public class OpenBrowserpom_design_pattern {
     public void InvalidData (){
         driver.navigate().to("https://the-internet.herokuapp.com/login");
 
-        driver.findElement(By.id("username")).sendKeys("to");
-        driver.findElement(By.id("password")).sendKeys("hello");
-        driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
+        Loginpom.UserNamePom(driver).sendKeys("to");
+        Loginpom.PasswordPom(driver).sendKeys("hello");
+        Loginpom.PasswordPom(driver).sendKeys(Keys.ENTER);
 
         String ExpectedResult = "Your username is invalid!";
-        String ActualResult = driver.findElement(By.id("flash")).getText();
+        String ActualResult = driver.findElement(Loginpom.FlashPom()).getText();
 
         Assert.assertTrue(ActualResult.contains(ExpectedResult));
 
